@@ -1,0 +1,1 @@
+svn propget svn:externals iMX6/ext >show_externals.txt
