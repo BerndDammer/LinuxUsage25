@@ -1,0 +1,9 @@
+HOWTO use engineering public folder on engineering file server
+
+Create mountpoint /media/EngineeringPublic (you may change that if you like, but also change the path in fstab below)
+
+Add line in /etc/fstab (\040 is a whitespace):
+//10.0.0.42/engineering\040public	/media/EngineeringPublic	cifs	username=<user>,password=<password>,noperm 0 0
+
+Mount the public drive (will be automatically mounted after reboot):
+sudo mount /media/EngineeringPublic

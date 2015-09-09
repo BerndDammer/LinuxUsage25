@@ -1,0 +1,6 @@
+mount
+echo -------------------------------------------------------------
+sudo mount.cifs -t cifs -o nounix //172.23.0.1/TRANSPHERE ./TRANSPHERE
+mount
+echo --------------------------------------------------------------
+read dummy

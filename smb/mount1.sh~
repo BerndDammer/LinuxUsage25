@@ -1,0 +1,5 @@
+su
+mount -t smbfs -o username=manni,password=manni //172.23.0.1/TRANSPHERE ./TRANSPHERE
+mount
+
+read dummy

@@ -1,0 +1,12 @@
+HOWTO use shared download folder for PTXdist
+
+You need the engineering public folder from the engineering file server mounted on your machine.
+See HOWTO_EngineeringPublic
+
+Set download directory in PTXdist:
+ptxdist setup
+
+Go to Source Directories and enter:
+/media/EngineeringPublic/shared-ptxdist-download
+
+Don't forget to setup the proxy if you didn't already do so.
