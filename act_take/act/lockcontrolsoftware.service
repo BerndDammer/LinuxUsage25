@@ -1,0 +1,14 @@
+[Unit]
+Description=Lock Control Software
+After=promisc.service
+Wants=promisc.service
+
+[Service]
+Type=forking
+PIDFile=/var/run/lockcontrolsoftware.pid
+ExecStart=/lib/systemd/systemd-lockcontrolsoftware start
+ExecStop=/lib/systemd/systemd-lockcontrolsoftware stop
+
+[Install]
+WantedBy=multi-user.target
+
