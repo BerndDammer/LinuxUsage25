@@ -1,0 +1,3 @@
+mkdir /media/sda2
+umount /media//sda2
+mount /dev/sda2 /media/sda2
