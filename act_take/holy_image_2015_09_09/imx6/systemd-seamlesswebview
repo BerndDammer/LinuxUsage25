@@ -1,0 +1,20 @@
+#!/bin/sh
+
+case "$1" in
+	start)
+		echo 0 > /sys/class/vtconsole/vtcon1/bind 
+		/bin/seamlesswebview http://127.0.0.1:3600 &> /var/log/seamlesswebview &
+		echo `pgrep seamlesswebview` > /var/run/seamlesswebview.pid
+		sleep 1
+		;;
+	stop)
+		killall seamlesswebview
+		rm /var/run/seamlesswebview.pid
+		dd if=/dev/zero of=/dev/fb0
+		;;
+	*)
+		echo "usage: $0 [start|stop]"
+		exit 1
+		;;
+esac
+

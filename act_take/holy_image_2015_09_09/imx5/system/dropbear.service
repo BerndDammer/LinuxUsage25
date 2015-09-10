@@ -1,0 +1,11 @@
+[Unit]
+Description=ssh deamon
+
+[Service]
+Type=forking
+ExecStart=/lib/systemd/systemd-dropbear start
+ExecStop=/lib/systemd/systemd-dropbear stop
+
+[Install]
+WantedBy=multi-user.target
+

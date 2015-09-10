@@ -1,0 +1,15 @@
+#!/bin/sh
+
+case "$1" in
+	start)
+		dropbear -B 
+		;;
+	stop)
+		killall dropbear
+		;;
+	*)
+		echo "usage: $0 [start|stop]"
+		exit 1
+		;;
+esac
+

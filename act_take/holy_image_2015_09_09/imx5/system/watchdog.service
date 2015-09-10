@@ -1,0 +1,12 @@
+[Unit]
+Description=watchdog deamon
+
+[Service]
+Type=forking
+ExecStart=/lib/systemd/systemd-watchdog start
+ExecStop=/lib/systemd/systemd-watchdog stop
+
+[Install]
+WantedBy=multi-user.target
+After=nodejs.service seamlesswebview.service
+

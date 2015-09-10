@@ -1,0 +1,18 @@
+#!/bin/sh
+
+case "$1" in
+	start)
+		/home/lamps &> /var/log/lightcontrolsoftware.log &
+		echo `pgrep lamps` > /var/run/lightcontrolsoftware.pid
+		sleep 1
+		;;
+	stop)
+		killall lamps
+		rm /var/run/lightcontrolsoftware.pid
+		;;
+	*)
+		echo "usage: $0 [start|stop]"
+		exit 1
+		;;
+esac
+

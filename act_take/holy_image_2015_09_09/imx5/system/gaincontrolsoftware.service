@@ -1,0 +1,14 @@
+[Unit]
+Description=GAIN Control Software
+After=promisc.service
+Wants=promisc.service
+
+[Service]
+Type=forking
+PIDFile=/var/run/gaincontrolsoftware.pid
+ExecStart=/lib/systemd/systemd-gaincontrolsoftware start
+ExecStop=/lib/systemd/systemd-gaincontrolsoftware stop
+
+[Install]
+WantedBy=multi-user.target
+

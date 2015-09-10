@@ -1,0 +1,14 @@
+[Unit]
+Description=Light Control Software
+After=promisc.service
+Wants=promisc.service
+
+[Service]
+Type=forking
+PIDFile=/var/run/lightcontrolsoftware.pid
+ExecStart=/lib/systemd/systemd-lightcontrolsoftware start
+ExecStop=/lib/systemd/systemd-lightcontrolsoftware stop
+
+[Install]
+WantedBy=multi-user.target
+

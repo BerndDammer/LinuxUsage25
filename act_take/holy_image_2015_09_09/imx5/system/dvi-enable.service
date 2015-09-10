@@ -1,0 +1,11 @@
+[Unit]
+Description=Enable DVI
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/lib/systemd/systemd-dvi-enable start
+ExecStop=/lib/systemd/systemd-dvi-enable stop
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,12 @@
+[Unit]
+Description=Configure SMSC95xx on MBa6x
+Before=ifupdown.service
+# Wants=systemd-udevd
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/mba6x-eth1-config.sh
+
+[Install]
+WantedBy=ifupdown.service

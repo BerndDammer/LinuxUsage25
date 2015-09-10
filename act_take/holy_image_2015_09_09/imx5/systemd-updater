@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Directories for update and work
+U_PATH=/spare/update
+U_WORK=/spare/update/work
+U_FILES=$U_PATH/*
+
+# Create folders just to be sure
+mkdir -p $U_PATH
+mkdir -p $U_WORK
+
+# Main 
+case "$1" in
+        start)
+                echo "updater launched"
+                for file in $U_FILES
+				do
+					if [ -d "$file" ]; then
+						echo "Skipping directory $file"
+					else
+						echo "Processing $file file ..."
+						file=$(basename $file)
+						echo "Filename is $file ..."
+						cd $U_PATH
+						mv $file $U_WORK/$file
+						cd $U_WORK
+						tar zxf $file
+						if [ -f "setup.sh" ]; then 
+							echo "Launching script ..."
+							chmod a+x setup.sh
+							./setup.sh
+							echo "Returned from script ..."
+							rm setup.sh
+						else
+							echo "The File Does Not Exist"; 
+						fi
+						rm $file
+						cd $U_PATH
+					fi
+				done
+                ;;
+        stop)
+                ;;
+        *)
+                echo "usage: $0 [start|stop]"
+                exit 1
+                ;;
+esac
+

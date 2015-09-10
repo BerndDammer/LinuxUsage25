@@ -1,0 +1,17 @@
+#!/bin/sh
+
+case "$1" in
+	start)
+		/home/display /home/BistableDisplay/ /var/tmp/ &> /var/log/bistabledisplay.log &
+		echo `pgrep display` > /var/run/bistabledisplay.pid
+		;;
+	stop)
+		killall display
+		rm /var/run/bistabledisplay.pid
+		;;
+	*)
+		echo "usage: $0 [start|stop]"
+		exit 1
+		;;
+esac
+

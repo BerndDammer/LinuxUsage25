@@ -1,0 +1,24 @@
+#!/bin/sh
+
+case "$1" in
+        start)
+                cd /home/zfap
+                # workaround for ENODEV error in UDP.addMembership
+                ifconfig eth0 promisc
+                route add -net 224.0.0.0 netmask 224.0.0.0 eth0
+                sleep 1
+                # start nodejs server
+                nodejs server/server.js &> /var/log/nodejs &
+                echo `pgrep nodejs` > /var/run/nodejs.pid
+                sleep 1
+                ;;
+        stop)
+                killall nodejs
+                rm /var/run/nodejs.pid
+                ;;
+        *)
+                echo "usage: $0 [start|stop]"
+                exit 1
+                ;;
+esac
+

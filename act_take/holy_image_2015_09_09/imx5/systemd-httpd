@@ -1,0 +1,15 @@
+#!/bin/sh
+
+case "$1" in
+	start)
+		httpd -h /home/www/
+		;;
+	stop)
+		killall httpd
+		;;
+	*)
+		echo "usage: $0 [start|stop]"
+		exit 1
+		;;
+esac
+

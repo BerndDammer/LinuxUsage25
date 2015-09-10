@@ -1,0 +1,11 @@
+[Unit]
+Description=updater
+
+[Service]
+Type=oneshot
+ExecStart=/lib/systemd/systemd-updater start &> /var/log/updater.log
+ExecStop=/lib/systemd/systemd-updater stop
+
+[Install]
+WantedBy=basic.target
+

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+case "$1" in
+	start)
+		/home/lockcontrol &> /var/log/lockcontrolsoftware.log &
+		echo `pgrep lockcontrol` > /var/run/lockcontrolsoftware.pid
+		sleep 1
+		;;
+	stop)
+		killall lockcontrol
+		rm /var/run/lockcontrolsoftware.pid
+		;;
+	*)
+		echo "usage: $0 [start|stop]"
+		exit 1
+		;;
+esac
+

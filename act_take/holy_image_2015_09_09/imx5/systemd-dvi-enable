@@ -1,0 +1,15 @@
+#!/bin/sh
+
+case "$1" in
+	start)
+		i2cset -y 0 0x38 8 0xbd
+		;;
+	stop)
+		i2cset -y 0 0x38 8 0xbe
+		;;
+	*)
+		echo "usage: $0 [start|stop]"
+		exit 1
+		;;
+esac
+

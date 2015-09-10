@@ -1,0 +1,13 @@
+[Unit]
+Description=backlight control software 
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/backlightcontrol.pid
+ExecStart=/lib/systemd/systemd-backlightcontrol start
+ExecStop=/lib/systemd/systemd-backlightcontrol stop
+
+[Install]
+WantedBy=multi-user.target
+

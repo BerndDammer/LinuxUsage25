@@ -1,0 +1,13 @@
+[Unit]
+Description=nodejs deamon
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/nodejs.pid
+ExecStart=/lib/systemd/systemd-nodejs start
+ExecStop=/lib/systemd/systemd-nodejs stop
+
+[Install]
+WantedBy=multi-user.target
+

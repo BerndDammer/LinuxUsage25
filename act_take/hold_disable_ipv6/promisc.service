@@ -1,0 +1,19 @@
+[Unit]
+Description=promisc for network
+After=ifupdown.service network.target
+Wants=ifupdown.service network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/echo "---------------PROMISC-START-----------------------"
+ExecStart=/bin/dd if=/home/one of=/proc/sys/net/ipv6/conf/all/disable_ipv6 bs=1 count=1
+ExecStart=/bin/dd /proc/sys/net/ipv6/conf/all/disable_ipv6 /var/log/disable_ipv6.echo
+ExecStart=/sbin/ifconfig eth0 promisc
+ExecStart=/sbin/ifconfig eth0 multicast
+ExecStart=/sbin/route add -net 224.0.0.0 netmask 224.0.0.0 eth0
+ExecStart=/bin/echo "---------------PROMISC-END-----------------------"
+ExecStart=/bin/sleep 1
+
+[Install]
+WantedBy=multi-user.target
+

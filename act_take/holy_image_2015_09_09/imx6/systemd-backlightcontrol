@@ -1,0 +1,18 @@
+#!/bin/sh
+
+case "$1" in
+	start)
+		/bin/backlightcontrol &> /var/log/backlightcontrol &
+		echo `pgrep backlightcontrol` > /var/run/backlightcontrol.pid
+		sleep 1
+		;;
+	stop)
+		killall backlightcontrol
+		rm /var/run/backlightcontrol.pid
+		;;
+	*)
+		echo "usage: $0 [start|stop]"
+		exit 1
+		;;
+esac
+

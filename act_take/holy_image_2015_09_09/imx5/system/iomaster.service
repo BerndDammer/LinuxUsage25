@@ -1,0 +1,14 @@
+[Unit]
+Description=IO-Master (ConnectIO)
+After=promisc.service 
+Wants=promisc.service
+
+[Service]
+Type=forking
+PIDFile=/var/run/iomaster.pid
+ExecStart=/lib/systemd/systemd-iomaster start
+ExecStop=/lib/systemd/systemd-iomaster stop
+
+[Install]
+WantedBy=multi-user.target
+

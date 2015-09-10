@@ -1,0 +1,13 @@
+[Unit]
+Description=seamlesswebview client
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/seamlesswebview.pid
+ExecStart=/lib/systemd/systemd-seamlesswebview start
+ExecStop=/lib/systemd/systemd-seamlesswebview stop
+
+[Install]
+WantedBy=multi-user.target
+
