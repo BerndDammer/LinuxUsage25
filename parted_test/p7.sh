@@ -1,0 +1,1 @@
+mkfs.ext4 -L ALAROOT /dev/loop0

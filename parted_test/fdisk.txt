@@ -1,0 +1,10 @@
+Festplatte test.img: 976,6 MiB, 1024000000 Bytes, 2000000 Sektoren
+Einheiten: Sektoren von 1 * 512 = 512 Bytes
+Sektorgröße (logisch/physikalisch): 512 Bytes / 512 Bytes
+E/A-Größe (minimal/optimal): 512 Bytes / 512 Bytes
+Festplattenbezeichnungstyp: dos
+Festplattenbezeichner: 0x4d285d33
+
+Gerät      Boot Anfang    Ende Sektoren Größe Kn Typ
+test.img1  *      2048  262143   260096  127M  c W95 FAT32 (LBA)
+test.img2       262144 1843199  1581056  772M 83 Linux

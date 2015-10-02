@@ -1,0 +1,1 @@
+parted test.img mkpart primary fat32 1MiB 128MiB

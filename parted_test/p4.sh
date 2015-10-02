@@ -1,0 +1,1 @@
+parted test.img mkpart primary ext2 128MiB 900MiB

@@ -1,0 +1,1 @@
+mkfs.vfat -F 32 -n ALABOOT /dev/loop0
