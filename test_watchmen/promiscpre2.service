@@ -1,0 +1,15 @@
+[Unit]
+Description=setting up network for multicast
+After=promiscpre.service
+Wants=promiscpre.service
+
+[service]
+Type=oneshot
+ExecStart=/sbin/ifconfig eth0 promisc
+ExecStart=/sbin/ifconfig eth0 multicast
+ExecStart=/sbin/route add -net 224.0.0.0 netmask 224.0.0.0 eth0
+ExecStart=/bin/sleep 1
+
+
+[Install]
+WantedBy=multi-user.target

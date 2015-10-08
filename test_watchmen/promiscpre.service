@@ -1,0 +1,13 @@
+[Unit]
+Description=!!!watchmen!!!
+After=ifupdown.service network.target
+Wants=ifupdown.service network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home
+ExecStart=/usr/jre/bin/java -jar watchmen.jar imx5
+
+
+[Install]
+WantedBy=multi-user.target

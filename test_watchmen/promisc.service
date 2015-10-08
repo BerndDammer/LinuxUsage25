@@ -1,0 +1,13 @@
+[Unit]
+Description=wait for successful ping
+After=promiscpre2.service
+Wants=promiscpre2.service
+
+[Service]
+Type=oneshot
+ExecStart=/lib/systemd/ping_test.sh
+
+
+[Install]
+WantedBy=multi-user.target
+

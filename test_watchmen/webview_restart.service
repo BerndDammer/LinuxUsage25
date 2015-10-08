@@ -1,0 +1,16 @@
+[Unit]
+Description=seamlesswebview restart
+After=promisc.service
+
+[Service]
+Type=simple
+StandardOutput=tty
+StandardOutput=inherit
+ExecStartPre=dd if=/dev/null of=/sys/class/vtconsole/vtcon1/bind bs=1 count=1 
+ExecStart=/bin/seamlesswebview http://127.0.0.1:3600
+Restart=always
+RestartSec=7
+
+[Install]
+WantedBy=multi-user.target
+

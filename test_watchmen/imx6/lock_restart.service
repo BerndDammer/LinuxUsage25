@@ -1,0 +1,20 @@
+[Unit]
+Description=Lock Control Software with auto restart
+After=promisc.service
+Wants=promisc.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/locks
+StandardOutput=tty
+StandardError=inherit
+TTYPath=/var/log/lockcontrolsoftware.log
+Restart=always
+RestartSec=1
+
+
+
+
+[Install]
+WantedBy=multi-user.target
+
