@@ -1,0 +1,1 @@
+parted test.img set 1 boot on

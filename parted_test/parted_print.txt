@@ -1,0 +1,10 @@
+Modell:  (file)
+Festplatte  /root/parted_test/test.img:  1024000000B
+Sektorgröße (logisch/physisch): 512B/512B
+Partitionstabelle: msdos
+Disk-Flags: 
+
+Nummer  Anfang      Ende        Größe       Typ      Dateisystem  Flags
+ 1      1048576B    134217727B  133169152B  primary  fat32        boot, lba
+ 2      134217728B  943718399B  809500672B  primary
+

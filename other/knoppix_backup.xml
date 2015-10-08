@@ -1,0 +1,309 @@
+<project name ="gen_backup" basedir="." default="all">
+
+    <splash imageurl="${ant.home}/images/ant_logo_large.gif" showduration="1000"/>
+
+    <property environment="env"/>
+    <property name="saveloc" value="${env.SAVEDRIVE}/knoppixbackup" />
+    <property name="granularity" value="2000" />
+
+    <patternset id="PS_PTXDIST">
+        <!-- dirs as bsp from tq -->
+        <include name="configs/**" />
+        <include name="local_src/**" />
+        <include name="patches/**" />
+        <include name="platforms/**" />
+        <include name="projectroot/**" />
+        <include name="rules/**" />
+        <include name="tests/**" />
+
+        <!-- try save setup links -->
+        <include name="*selected*" />
+        <include name="*/*selected*" />
+        <include name="*/*/*selected*" />
+
+        <!-- barebox startparameter-->
+        <include name="configs/platform-tq-mba53/barebox-defaultenv/config*" />
+
+        <!-- xorg.conf wegen touch -->
+        <!-- include name="projectroot/etc/X11/xorg.conf" / -->
+        <include name="projectroot/**" />
+
+        <!-- manual insert of mtrack driver -->
+        <include name="platform-MBa53/build-target/linux-3.9/drivers/hid/hid-unitec.c" />
+        <include name="platform-MBa53/build-target/linux-3.9/drivers/hid/Makefile" />
+        <include name="platform-MBa53/build-target/linux-3.9/drivers/hid/hid-core.c" />
+        <include name="platform-MBa53/build-target/linux-3.9/drivers/hid/hid-ids.h" />
+        <include name="platform-MBa53/build-target/linux-3.9/drivers/hid/Kconfig" />
+
+
+        <!-- patch dts for lvds -->
+        <include name="*.dts" />
+        <include name="platform-MBa53/build-target/linux-3.9/arch/arm/boot/dts/imx53-mba53.dts" />
+
+
+        <!-- patch for touch xf86-input-mtack-unitec -->
+        <include name="platform-MBa53/build-target/xf86-input-mtrack-unitec-1.0.1/tools/mtrack-test.c" />
+
+    </patternset>
+
+    <patternset id="PS_PTXDIST_IMAGES">
+        <include name="platform-MBa53/images/**" />
+        <exclude name="platform-MBa53/images/uboot_hd.img" />
+        <exclude name="platform-MBa53/images/u-boot*" />
+        <exclude name="platform-MBa53/images/root.ext2" />
+        <exclude name="platform-MBa53/images/*emmc*" />
+    </patternset>
+
+    <patternset id="PS_CDT">
+        <include name="**/*.c" />
+        <include name="**/*.h" />
+        <include name="**/*.bat" />
+        <include name="**/*.sh" />
+        <include name=".project" />
+        <include name=".cproject" />
+        <include name="**/*.arm" />
+        <include name="**/makefile" />
+        <include name="**/*.mk" />
+    </patternset>
+
+    <patternset id="knoppix">
+        <include name="*.sh" />
+        <include name="*.conf" />
+        <include name="*/*.sh" />
+        <include name="*/*.conf" />
+        <include name="*/*/*.sh" />
+        <include name="*/*/*.conf" />
+        <include name="*.url" />
+        <include name="*.URL" />
+    </patternset>
+
+<!-- **********************************              M A I N s         ********************************** -->
+   
+
+    <target name="all" depends="push2drive"/>
+
+
+    <target name="push2drive" depends="pack_knoppix">
+        <sync todir="${saveloc}" granularity="${granularity}" verbose="yes">
+            <fileset dir="backup">
+                <include name="**/*.zip" />
+                <include name="**/*.tar.gz" />
+		<exclude name="ala_save_images.zip"/>
+            </fileset>
+        </sync>
+    </target>
+
+
+   <target name="pack_knoppix" >
+       <zip destfile="${env.SAVE_LOC}/knoppix.zip">
+           <zipfileset dir="chroot_test" prefix="chroot_test" followsymlinks="0">
+               <patternset refid="knoppix" />
+           </zipfileset>
+           <zipfileset dir="boundarydevices" prefix="boundarydevices" followsymlinks="0">
+               <patternset refid="knoppix" />
+           </zipfileset>
+           <zipfileset dir="debootstrap" prefix="debootstrap">
+               <patternset refid="knoppix" />
+                <include name="ala_take_root/**" />
+                <!--
+                <include name="*.sh" />
+                <include name="*.conf" />
+                -->
+           </zipfileset>
+           <zipfileset dir="fedora_20" prefix="fedora_20">
+               <patternset refid="knoppix" />
+           </zipfileset>
+           <zipfileset dir="imx6_first_view" prefix="imx6_first_view" >
+               <patternset refid="knoppix" />
+           </zipfileset>
+           <zipfileset dir="Jetson_TK1" prefix="Jetson_TK1" >
+               <patternset refid="knoppix" />
+           </zipfileset>
+           <zipfileset dir="multistrap" prefix="multistrap" >
+               <patternset refid="knoppix" />
+           </zipfileset>
+           <zipfileset dir="other_root" prefix="other_root" >
+               <patternset refid="knoppix" />
+           </zipfileset>
+           <zipfileset dir="qemut1" prefix="qemut1" followsymlinks="0">
+               <patternset refid="knoppix" />
+           </zipfileset>
+
+           <zipfileset dir="nitrogen6_max_android_bootpart" prefix="nitrogen6x_max_android_bootpart" followsymlinks="0">
+               <include name="**/*" />
+           </zipfileset>
+
+           <zipfileset dir="." prefix="zzip_batch_root">
+                <include name="*.sh" />
+                <include name="*.xml" />
+                <include name="*.log" />
+                <include name="*.txt" />
+           </zipfileset>
+
+           <zipfileset dir="udoo" prefix="udoo" followsymlinks="0">
+               <patternset refid="knoppix" />
+               <include name="**/*.txt" />
+               <include name="arch_linux_arm/boot/**/*" />
+               <include name="sd_bootstrap/**/*" />
+               <include name="sd_images_old/**/*.txt" />
+           </zipfileset>
+
+           <zipfileset dir="nitrogen6_max" prefix="nitrogen6x_max" followsymlinks="0">
+               <include name="arch_boot_1/**/*" />
+           </zipfileset>
+
+           <zipfileset dir="nitrogen6_max_trusty_boot" prefix="nitrogen6_max_trusty_boot" followsymlinks="0">
+               <include name="**/*" />
+               <exclude name="boot/*.dtb" />
+           </zipfileset>
+
+       </zip>
+
+
+   </target>
+   
+    <target name="pack_generals" depends="pack_ptxdist">
+        <tar destfile="${env.SAVE_LOC}/generals.tar.gz" compression="gzip" longfile="posix" followsymlinks="false">
+            <tarfileset dir="." prefix ="project_root">
+                <include name="*.sh" />
+                <include name="*.xml" />
+                <include name="*.log" />
+                <include name="*.txt" />
+            </tarfileset>
+            <tarfileset dir="/" >
+                <include name="usr/local/bin/*.sh" />
+            </tarfileset>
+            <tarfileset dir="." >
+                <include name="fap/*.sh" />
+            </tarfileset>
+        </tar>
+    </target>
+
+
+    <target name="pack_ptxdist">
+        <antcall target="antsub_ptxdist" inheritAll="false">
+            <param name="PTXNAME" value="test1" />
+        </antcall>
+        <antcall target="antsub_ptxdist" inheritAll="false">
+            <param name="PTXNAME" value="lvds1" />
+        </antcall>
+        <antcall target="antsub_ptxdist" inheritAll="false">
+            <param name="PTXNAME" value="lvds2" />
+        </antcall>
+        <antcall target="antsub_ptxdist" inheritAll="false">
+            <param name="PTXNAME" value="lvds3" />
+        </antcall>
+        <antcall target="antsub_ptxdist" inheritAll="false">
+            <param name="PTXNAME" value="lvds4" />
+        </antcall>
+        <antcall target="antsub_ptxdist" inheritAll="false">
+            <param name="PTXNAME" value="lvds5" />
+        </antcall>
+        <antcall target="antsub_ptxdist" inheritAll="false">
+            <param name="PTXNAME" value="lvds6" />
+        </antcall>
+        <antcall target="antsub_ptxdist" inheritAll="false">
+            <param name="PTXNAME" value="ala" />
+        </antcall>
+        <antcall target="antsub_ptxdist" inheritAll="false">
+            <param name="PTXNAME" value="ala_dvi" />
+        </antcall>
+        <antcall target="antsub_ptxdist" inheritAll="false">
+            <param name="PTXNAME" value="ala_gpu" />
+        </antcall>
+    </target>
+
+
+    <target name="pack_cdt">
+        <antcall target="antsub_cdt" inheritAll="false">
+            <param name="CDTNAME" value="lt17" />
+        </antcall>
+    </target>
+
+   <target name="pack_lt17" >
+       <zip destfile="${env.SAVE_LOC}/lt17_raw.zip">
+           <zipfileset dir="lt17" >
+               <include name="**" />
+           </zipfileset>
+       </zip>
+   </target>
+
+   <target name="pack_genimage" >
+       <zip destfile="${env.SAVE_LOC}/genimage.zip">
+           <zipfileset dir="fap/genimage" >
+               <include name="**/*.sh" />
+               <include name="**/*.config" />
+               <include name="**/*.cfg" />
+               <include name="README" />
+               <include name="genimage" />
+           </zipfileset>
+       </zip>
+   </target>
+   
+   <target name="pack_ala_readback" >
+       <zip destfile="${env.SAVE_LOC}/ala_readback.zip">
+           <zipfileset dir="fap/ala_readback" >
+               <include name="**" />
+           </zipfileset>
+       </zip>
+   </target>
+   
+   <target name="pack_ala_save" >
+       <zip destfile="${env.SAVE_LOC}/ala_save.zip">
+           <zipfileset dir="fap/ala_save" >
+               <include name="**" />
+               <exclude name="**/*.img" />
+               <exclude name="**/*.tgz" />
+           </zipfileset>
+       </zip>
+   </target>
+
+   <target name="pack_ala_save_images" >
+       <zip destfile="${env.SAVE_LOC}/ala_save_images.zip">
+           <zipfileset dir="fap/ala_save" >
+               <include name="**" />
+               <exclude name="**/*.img" />
+           </zipfileset>
+       </zip>
+   </target>
+   
+   <target name="pack_panic_armel" >
+       <zip destfile="${env.SAVE_LOC}/panic_armel.zip">
+           <zipfileset dir="fap/panic_armel" >
+               <include name="**/*.sh" />
+           </zipfileset>
+       </zip>
+   </target>
+   
+   <!-- **********************************                   A N T  S U B s         ********************************** -->
+
+    <target name="antsub_ptxdist">
+	<exec executable="find" dir="fap/${PTXNAME}" output="${PTXNAME}_links.txt" >
+	    <arg line="-type l -maxdepth 2 -printf '%p -> %l\n'"/>
+	</exec>
+        <property name="ptxarc" location="${env.SAVE_LOC}/${PTXNAME}" />
+        <tar destfile="${ptxarc}_src.tar.gz" compression="gzip" longfile="posix" followsymlinks="false">
+            <tarfileset dir="fap/${PTXNAME}">
+                <patternset refid="PS_PTXDIST" />
+		<include name="*.txt" />
+            </tarfileset>
+        </tar>
+        <zip destfile="${ptxarc}_img.zip">
+            <fileset dir="fap/${PTXNAME}">
+                <patternset refid="PS_PTXDIST_IMAGES" />
+            </fileset>
+        </zip>
+    </target>
+
+    <target name="antsub_cdt">
+        <property name="cdtarc" location="${env.SAVE_LOC}/${CDTNAME}" />
+        <zip destfile="${cdtarc}.zip">
+            <zipfileset dir="cdt_ws/${CDTNAME}">
+                <patternset refid="PS_CDT" />
+            </zipfileset>
+        </zip>
+    </target>
+
+
+</project>
+

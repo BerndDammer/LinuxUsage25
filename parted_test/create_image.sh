@@ -1,0 +1,1 @@
+dd if=/dev/zero of=test.img bs=1024 count=1000000
