@@ -1,0 +1,7 @@
+[remote "origin"]
+	url = https://BerndDammer@github.com/BerndDammer/LinuxUsage25
+[user]
+	email = BerndDammer@web.de
+	name = BerndDammer
+[push]
+	default = simple
